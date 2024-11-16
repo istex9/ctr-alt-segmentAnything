@@ -3,13 +3,11 @@ import random
 import os
 import shutil
 
-# Set the total number of images you want in your development training dataset
-N_train = 1500  # Adjust as needed
+N_train = 1500 
 
-# Set the total number of images you want in your development testing dataset
-N_test = 300  # Adjust as needed
+N_test = 300
 
-# Paths to your CSV file and image directories
+# Paths to CSV file and image directories
 csv_path = 'train_ship_segmentations_v2.csv'
 train_images_dir = 'train_v2/'
 test_images_dir = 'test_v2/'
@@ -22,7 +20,7 @@ dev_test_images_dir = 'dev_test_v2/'
 os.makedirs(dev_train_images_dir, exist_ok=True)
 os.makedirs(dev_test_images_dir, exist_ok=True)
 
-### Part 1: Create Development Training Set ###
+#Create Development Training Set
 
 # Read the CSV file
 df = pd.read_csv(csv_path)
@@ -57,11 +55,11 @@ for image_id in sampled_train_images:
 
 print(f"Copied {len(sampled_train_images)} training images to the development training directory.")
 
-# Optional: Save the subset CSV for the development training set
+# Save the subset CSV for the development training set
 df_dev = df[df['ImageId'].isin(sampled_train_images)]
 df_dev.to_csv('train_ship_segmentations_dev.csv', index=False)
 
-### Part 2: Create Development Testing Set ###
+# Create Development Testing Set
 
 # Get a list of all test image IDs
 test_image_ids = os.listdir(test_images_dir)
