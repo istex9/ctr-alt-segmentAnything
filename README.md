@@ -15,7 +15,7 @@
 
 #### **Data Handling**  
 
-To streamline testing and development, we initially worked with a subset of the original dataset. This subset enabled faster iteration and experimentation. In later phases, we plan to transition to the full dataset for final evaluation.  
+To streamline testing and development, we initially worked with a subset of the original dataset. This subset was created using the **`dev_sample.py`** script, which allowed us to efficiently extract a manageable portion of the data for faster iteration. In later phases, we plan to transition to the full dataset for final evaluation.  
 
 - **Total number of images analyzed:** 1,500  
 - **Images with ships:** 420  
@@ -33,12 +33,16 @@ To address the significant imbalance between ship and no-ship images, we employe
 - **Loss Function:** Binary Cross Entropy with Logits Loss (**BCEWithLogitsLoss**)  
 - **Validation Metric:** Intersection over Union (**IoU**)  
 - **Epochs:** 10 (focused on rapid testing and validation)  
+- **Early Stopping:** Implemented to halt training if the validation loss does not improve for a set number of epochs. This feature will be especially beneficial when training on the full dataset to prevent overfitting or unnecessary computation.  
 
-Even after just 10 epochs, the model demonstrates promising results:  
+Even with a relatively small subset of the data, the model achieved an **IoU of ~75%**, demonstrating its capability to generalize well even with limited training samples.  
+
+#### **Key Observations:**
+
 - If no ships are present in an image, the model confidently predicts no ships, as seen in the evaluation outputs.  
 - For images containing ships, the predictions (marked in **red**) are reasonably aligned with the expected masks (**green**). The **yellow** overlay represents the intersection of the two masks.  
+- The model often outlines the precise contours of ships, whereas the given masks sometimes use rectangular bounding areas (e.g., ship bows appear blocky in the original mask). This indicates the model's potential for fine-grained segmentation.  
 
-Notably, the model often outlines the precise contours of ships, whereas the ground truth masks sometimes use rectangular bounding areas (e.g., ship bows appear blocky in the ground truth). This shows the model's potential for fine-grained segmentation.  
 ---
 
 #### **How to Run the Code**
@@ -54,7 +58,8 @@ This final cell visualizes predicted masks alongside the ground truth, enabling 
 ---
 
 #### File hierarchy description:
-- test_v2 / train_v2: folders containing the images for testing and training
-- train_ship_segmentations_v2.csv: csv file containing the image ids and the corresponding ship segmentation masks
-- README.md: this file
-- ship_detection.ipynb: the main notebook containing the code (from data exploration to model training and evaluation)
+- **test_v2** / **train_v2**: folders containing the images for testing and training
+- **train_ship_segmentations_v2.csv**:: csv file containing the image ids and the corresponding ship segmentation masks
+- **dev_sample.py**: Script used to create a manageable subset of the data for initial testing and development.  
+- **README.md**: this file
+- **ship_detection.ipynb**: the main notebook containing the code (from data exploration to model training and evaluation)
