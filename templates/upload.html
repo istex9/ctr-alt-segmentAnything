@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Hajó Detektáló</title>
+    <!-- Bootstrap Cosmo téma -->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" rel="stylesheet">
+    <!-- Egyéni CSS -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Hajó Detektáló</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Hajó Detektáló Alkalmazás</h1>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-danger mt-3">
+                <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+          {% endif %}
+        {% endwith %}
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form id="uploadForm" action="{{ url_for('upload_image') }}" method="post" enctype="multipart/form-data" class="mt-4">
+                    <div class="form-group">
+                        <label for="file">Kép feltöltése:</label>
+                        <input type="file" name="file" accept="image/*" class="form-control-file" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Feltöltés és Detektálás</button>
+                </form>
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="text-center mt-4" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Betöltés...</span>
+                    </div>
+                    <p>Feldolgozás folyamatban...</p>
+                </div>
+                <hr>
+                <h3 class="mt-4">Véletlenszerű Kép Feldolgozása</h3>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('random_test') }}" class="btn btn-success">Random Test Image</a>
+                    <a href="{{ url_for('random_train') }}" class="btn btn-success">Random Train Image</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-light">
+        <div class="container text-center">
+            <span class="text-muted">© 2024 Hajó Detektáló Alkalmazás. Minden jog fenntartva.</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS és szükséges függőségek -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- JavaScript a Spinner Megjelenítéséhez -->
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
