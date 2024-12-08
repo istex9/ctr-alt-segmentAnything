@@ -5,6 +5,8 @@
 - Somodi István (ixh8ro)
 - Géró Kristóf (i0sk1n)
 
+Megajánlott jegyért <-> Offered grade for consideration, Please.
+
 #### Project description:
 
 - https://www.kaggle.com/c/airbus-ship-detection/overview
@@ -56,9 +58,13 @@ Even with a relatively small subset of the data, the model achieved an **IoU of 
 This final cell visualizes predicted masks alongside the ground truth, enabling qualitative assessment of the model's performance.  
 
 ---
+**Modell:**  
+
+[Modell link ](https://drive.google.com/file/d/1-nX-7krEGFB4YvCqO4Vyp8El367NecHV/view?usp=sharing)
+---
 ### GUI Description
 
-The project provides a graphical interface to test the trained model for ship detection.
+The project includes a graphical interface for testing the trained ship detection model. The Flask application automatically downloads the model upon startup.
 
 #### How to Start the GUI
 
