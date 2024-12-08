@@ -56,6 +56,47 @@ Even with a relatively small subset of the data, the model achieved an **IoU of 
 This final cell visualizes predicted masks alongside the ground truth, enabling qualitative assessment of the model's performance.  
 
 ---
+### GUI Description
+
+The project provides a graphical interface to test the trained model for ship detection.
+
+#### How to Start the GUI
+
+**Option 1: Using Docker**  
+1. Pull the Docker image:  
+   ```
+   docker pull ghcr.io/istex9/ship-detector:latest
+   ```
+2. Run the container:  
+   ```
+   docker run -p 5001:5001 ghcr.io/istex9/ship-detector:latest
+   ```
+
+**Option 2: Locally using Python**  
+1. Ensure you have Python 3.9 or above installed.
+2. Run the app:  
+   ```
+   python app.py
+   ```
+
+The GUI will be available at `http://localhost:5001` in both cases.
+
+#### Features of the GUI
+
+- **Upload Image:** Allows you to upload a custom image. The model will process the image and display the results, including the original image, predicted mask, overlay, and metrics.
+- **Random Test Image:** Fetches a random image from the test set for detection and displays the results.
+- **Random Train Image:** Fetches a random image from the training set for detection. In addition to displaying the results, it also shows metrics like Intersection over Union (IoU), Precision, Recall, and F1 Score.
+
+#### Screenshots
+
+Main Interface:  
+![Main GUI](gui_main.png)
+
+Detection Results with Metrics:  
+![Results with Metrics](detect_from_train_with_metrics.png)
+
+---
+
 
 #### File hierarchy description:
 - **test_v2** / **train_v2**: folders containing the images for testing and training
