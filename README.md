@@ -74,7 +74,13 @@ The project provides a graphical interface to test the trained model for ship de
 
 **Option 2: Locally using Python**  
 1. Ensure you have Python 3.9 or above installed.
+
 2. Run the app:  
+   ```
+    pip install -r requirements.txt
+   ```
+
+3. Run the app:  
    ```
    python app.py
    ```
