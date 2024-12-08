@@ -9,6 +9,12 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict
 import warnings
+import gdown
+
+url = "https://drive.google.com/uc?id=1-sMXrSvN0QoXNqm5hEcy7IKudWd92CYM"
+output = "best_deeplabv3_model.pth"
+
+gdown.download(url, output, quiet=False)
 
 # FutureWarning kezelés (opcionális)
 warnings.filterwarnings("ignore", category=FutureWarning)
