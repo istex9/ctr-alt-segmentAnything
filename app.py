@@ -14,7 +14,11 @@ import gdown
 url = "https://drive.google.com/uc?id=1-sMXrSvN0QoXNqm5hEcy7IKudWd92CYM"
 output = "best_deeplabv3_model.pth"
 
-gdown.download(url, output, quiet=False)
+if not os.path.exists(output):
+    print(f"Downloading {output}...")
+    gdown.download(url, output, quiet=False)
+else:
+    print(f"The file {output} already exists. Skipping download.")
 
 # FutureWarning kezelés (opcionális)
 warnings.filterwarnings("ignore", category=FutureWarning)
