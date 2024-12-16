@@ -4,19 +4,28 @@
 \usepackage{geometry} % Adjust margins
 \geometry{a4paper, margin=1in}
 
-\title{Ctrl-Alt-SegmentAnything}
-\author{Kristóf Géró, István Somodi, Sára Hugyecz}
+\title{Hajók szegmentálása műholdképeken mélytanulás segítségével \\
+\textit{Ship Segmentation in Satellite Images Using Deep Learning}}
+\author{Ctrl-Alt-SegmentAnything: Kristóf Géró, István Somodi, Sára Hugyecz}
 \date{December 8, 2024}
 
 \begin{document}
 
 \maketitle
 
-\section{Abstract}
+\section*{Absztrakt}
+
+A tengeri közlekedés napjaink egyik leggyorsabban növekvő iparága, amely jelentős környezeti és biztonsági kihívásokat is magában hordoz. E projekt célja egy mélytanulási modell kifejlesztése volt, amely műholdképeken képes hajók szegmentálására, hozzájárulva a tengeri megfigyeléshez és a globális biztonsági törekvésekhez. A modell fejlesztéséhez egy 192 556 RGB műholdképből álló adathalmazt használtunk, amely szegmentációs maszkokkal volt ellátva. 
+
+A DeepLabV3 modellt implementáltuk ResNet-50 hátterű architektúrával a hajók pontos detektálására. A tanítást súlyozott véletlenszerű mintavételezéssel végeztük az osztályegyensúly javítása érdekében. A modell 5 tanítási ciklus után 90.33\%-os validációs IoU-t ért el, míg a tanítási IoU 79.33\% lett, ami a modell kiváló teljesítményét mutatja a hajók és a háttér megkülönböztetésében. Egy grafikus felhasználói felület (GUI) is kifejlesztésre került a tesztelés és vizualizáció megkönnyítésére.
+
+Az eredmények azt mutatják, hogy a modell hatékonyan azonosítja a hajókat és azok körvonalait, ezzel értékes eszközt kínálva a tengeri megfigyelési rendszerek számára. A jövőbeli fejlesztések célja újabb architektúrák felfedezése és a modell általánosító képességének javítása más adathalmazokra.
+
+\section*{Abstract}
 
 Maritime transportation is a rapidly growing industry, posing significant environmental and security challenges. This project aimed to develop a deep learning model capable of segmenting ships in satellite images, contributing to maritime monitoring and global safety efforts. Using a dataset of 192,556 RGB satellite images with annotated segmentation masks, we implemented the DeepLabV3 model with a ResNet-50 backbone for precise ship detection.
 
-The model was trained using weighted random sampling to address class imbalance, achieving a high validation Intersection over Union (IoU) of 88.85\% after 5 epochs, with a training IoU of 76.20\%, demonstrating strong performance in distinguishing ships from the background. Data augmentation techniques improved the model's robustness, while a graphical user interface (GUI) was developed for intuitive testing and visualization.
+The model was trained using weighted random sampling to address class imbalance, achieving a high validation Intersection over Union (IoU) of 90.33\% after 5 epochs, with a training IoU of 79.33\%, demonstrating strong performance in distinguishing ships from the background. A graphical user interface (GUI) was developed for intuitive testing and visualization.
 
 The results indicate that the model effectively identifies ships and their contours, offering a valuable tool for maritime monitoring systems. Future work includes exploring newer architectures and improving generalization capabilities to other datasets.
 
@@ -62,7 +71,7 @@ The dataset was split into training, validation, and test subsets. The training 
 
 During training, the class imbalance between ship-containing and empty images posed a significant challenge. To address this, we employed weighted random sampling, a technique that ensured balanced representation of both classes in each training batch. This approach enabled the model to learn effectively from both ship-containing and empty images.
 
-After 5 epochs, the model achieved a validation IoU of 88.85\% and a training IoU of 76.20\%. The corresponding validation and training losses were 0.0008 and 0.0014, respectively, indicating effective convergence. These results demonstrated that the model performed well in both generalization and optimization.
+After 5 epochs, the model achieved a validation IoU of 90.33\% and a training IoU of 79.33\%. The corresponding validation and training losses were 0.0008 and 0.0014, respectively, indicating effective convergence. These results demonstrated that the model performed well in both generalization and optimization.
 
 \begin{figure}[h]
     \centering
@@ -71,10 +80,18 @@ After 5 epochs, the model achieved a validation IoU of 88.85\% and a training Io
     \label{fig:loss_and_iou}
 \end{figure}
 
+\subsection{Hyperparameter Optimization}
+
+During the project, we applied the Optuna framework for hyperparameter optimization to enhance the model's performance. The learning rate was explored in a logarithmic range, with the goal of maximizing the validation Intersection over Union (IoU). We used the Adam optimizer, while the learning rate was dynamically adjusted using the ReduceLROnPlateau scheduler, which reduced the learning rate if the validation loss plateaued for a set number of epochs.
+
+To prevent overfitting, early stopping was employed. If the validation IoU did not improve for 3 consecutive epochs, the training process was terminated. Additionally, we utilized Optuna's built-in pruning mechanism, which allowed the early termination of underperforming trials, thereby reducing computational cost.
+
+As a result of the hyperparameter search, the optimal learning rate was determined to be 0.000497, achieving a validation IoU of 0.899. This result demonstrates the effectiveness of the chosen optimization strategy in improving the model's accuracy and efficiency.
+
 
 \section{Evaluation}
 
-The choice of evaluation metrics played a crucial role in the project. The Intersection over Union (IoU) metric was selected to measure the overlap between the predicted and actual segmentation masks relative to their union. IoU is one of the most commonly used metrics in segmentation tasks because it is sensitive to cases where the model either over-predicts irrelevant areas as ships or under-predicts the actual ship regions. An IoU of 88.85\% on the validation set demonstrated that the model accurately captured most of the ship contours, though occasional discrepancies between the predicted and actual masks were observed.
+The choice of evaluation metrics played a crucial role in the project. The Intersection over Union (IoU) metric was selected to measure the overlap between the predicted and actual segmentation masks relative to their union. IoU is one of the most commonly used metrics in segmentation tasks because it is sensitive to cases where the model either over-predicts irrelevant areas as ships or under-predicts the actual ship regions. An IoU of 90.33\% on the validation set demonstrated that the model accurately captured most of the ship contours, though occasional discrepancies between the predicted and actual masks were observed.
 
 The F1 score was also a key metric in evaluating model performance. The F1 score, representing the harmonic mean of precision and recall, is particularly useful when there is an imbalance between classes. Given the lower proportion of ship-containing images, the F1 score helped assess how well the model identified ships while avoiding excessive false positives. High F1 scores indicated that the model successfully struck a balance between precision and recall.
 
@@ -116,6 +133,12 @@ M. Rahimzadeh, S. Attar, and F. Puech,
 \textit{Deep Neural Networks with Intersection over Union Loss for Binary Image Segmentation}, 
 Proceedings of the 14th International Joint Conference on Computer Vision, Imaging and Computer Graphics Theory and Applications, 2019, pp. 135--141. 
 \url{https://www.scitepress.org/Papers/2019/73475/73475.pdf}
+
+\bibitem{badrinarayanan2015segnet}
+V. Badrinarayanan, A. Kendall, and R. Cipolla, 
+\textit{SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation}, 
+arXiv preprint arXiv:1511.00561, 2015.
+\url{https://arxiv.org/abs/1511.00561}
 
 \bibitem{akagic2023deeplabv3}
 A. Akagić, et al., 
@@ -164,6 +187,12 @@ S. Ren, K. He, R. Girshick, and J. Sun,
 \textit{Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks}, 
 arXiv preprint arXiv:1506.01497, 2015. 
 \url{https://arxiv.org/abs/1506.01497}
+
+\bibitem{alom2020ensemble}
+M. Z. Alom, T. M. Taha, C. Yakopcic, S. Westberg, P. Sidike, M. S. Nasrin, B. C. Van Essen, A. A. S. Awwal, and V. K. Asari, 
+\textit{A Comprehensive Review on Ensemble Deep Learning: Opportunities and Challenges}, 
+arXiv preprint arXiv:2001.06554, 2020. 
+\url{https://arxiv.org/abs/2001.06554}
 
 \bibitem{alom2020ensemble}
 M. Z. Alom, T. M. Taha, C. Yakopcic, S. Westberg, P. Sidike, M. S. Nasrin, B. C. Van Essen, A. A. S. Awwal, and V. K. Asari, 
